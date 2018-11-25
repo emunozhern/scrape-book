@@ -3,7 +3,7 @@ import requests
 import re
 from openpyxl import load_workbook
 from bs4 import BeautifulSoup
-
+# 2500/3:22pm
 
 id_book = 0
 start_range = 1
@@ -11,14 +11,15 @@ continue_next = False
 title_book = ''
 wb = load_workbook("scrapeo.xlsx", read_only=True)
 ws = wb.worksheets[0]
-for i, row in enumerate(ws.iter_rows(), 1):
-    print('Loading {}'.format(i))
-    if ws.cell(row=i, column=1).value != 0:
-        id_book = ws.cell(row=i, column=1).value
-        title_book = ws.cell(row=i, column=2).value
-        start_range = ws.cell(row=i, column=15).value
-    else:
-        break
+max_row = ws.max_row
+if max_row > 1:
+    print('Loading row {}'.format(max_row))
+
+    if ws.cell(row=max_row, column=1).value != 0:
+        id_book = ws.cell(row=max_row, column=1).value
+        title_book = ws.cell(row=max_row, column=2).value
+        start_range = ws.cell(row=max_row, column=15).value
+
 print('Finish loading: {} {} {}'.format(id_book, start_range, title_book))
 book_links = []
 for itera in range(start_range, 334):
