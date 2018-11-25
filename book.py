@@ -25,7 +25,7 @@ if max_row > 1:
 print('Finish loading: {} {} {}'.format(id_book, start_range, title_book))
 book_links = []
 #136 - 150
-for itera in range(start_range, 334):
+for itera in range(start_range, 150):
     url = 'https://www.bookdepository.com/category/2/Art-Photography/browse/viewmode/all?page={}'.format(itera)
     req = requests.get(url)
     soup = BeautifulSoup(req.text, "lxml")
