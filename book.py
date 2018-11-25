@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 #4052
 # maxpag 334
 id_book = 0
-start_range = 1
+start_range = 136
 continue_next = False
 title_book = ''
 wb = load_workbook("scrapeo.xlsx", read_only=True)
