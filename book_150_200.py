@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 #4052
 # maxpag 334
 id_book = 0
-start_range = 1
+start_range = 150
 continue_next = False
 title_book = ''
 wb = load_workbook("scrapeo.xlsx", read_only=True)
@@ -24,8 +24,8 @@ if max_row > 1:
 
 print('Finish loading: {} {} {}'.format(id_book, start_range, title_book))
 book_links = []
-#136 - 150
-for itera in range(start_range, 334):
+#150 - 200
+for itera in range(start_range, 200):
     url = 'https://www.bookdepository.com/category/2/Art-Photography/browse/viewmode/all?page={}'.format(itera)
     req = requests.get(url)
     soup = BeautifulSoup(req.text, "lxml")
