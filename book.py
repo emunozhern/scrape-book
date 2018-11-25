@@ -5,7 +5,7 @@ from openpyxl import load_workbook
 from bs4 import BeautifulSoup
 
 book_links = []
-
+id_book = 0
 for itera in range(1, 51):
     url = 'https://www.bookdepository.com/category/2/Art-Photography/browse/viewmode/all?page={}'.format(itera)
     req = requests.get(url)
@@ -14,10 +14,7 @@ for itera in range(1, 51):
     book_links = [book.a.attrs['href'] for book in soup.find_all('h3', 'title')]
 
     for i, book in enumerate(book_links):
-        if itera==1:
-            id_book = (i)+1
-        else:
-            id_book = ((itera * 30) + i)+1
+        id_book = id_book + 1
         name_book = ''  #Obligatorio o no guardar registro
         author_book = ''  #Obligatorio o no guardar registro
         publisher_book = '' #Obligatorio o no guardar registro
