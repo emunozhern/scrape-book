@@ -4,9 +4,24 @@ import re
 from openpyxl import load_workbook
 from bs4 import BeautifulSoup
 
-book_links = []
+
 id_book = 0
-for itera in range(1, 334):
+start_range = 1
+continue_next = False
+title_book = ''
+wb = load_workbook("scrapeo.xlsx", read_only=True)
+ws = wb.worksheets[0]
+for i, row in enumerate(ws.iter_rows(), 1):
+    print('Loading {}'.format(i))
+    if ws.cell(row=i, column=1).value != 0:
+        id_book = ws.cell(row=i, column=1).value
+        title_book = ws.cell(row=i, column=2).value
+        start_range = ws.cell(row=i, column=15).value
+    else:
+        break
+print('Finish loading: {} {} {}'.format(id_book, start_range, title_book))
+book_links = []
+for itera in range(start_range, 334):
     url = 'https://www.bookdepository.com/category/2/Art-Photography/browse/viewmode/all?page={}'.format(itera)
     req = requests.get(url)
     soup = BeautifulSoup(req.text, "lxml")
@@ -14,7 +29,13 @@ for itera in range(1, 334):
     book_links = [book.a.attrs['href'] for book in soup.find_all('h3', 'title')]
 
     for i, book in enumerate(book_links):
-        id_book = id_book + 1
+
+        if title_book == '':
+            continue_next = True
+    
+        if continue_next:
+            id_book = id_book + 1
+    
         name_book = ''  #Obligatorio o no guardar registro
         author_book = ''  #Obligatorio o no guardar registro
         publisher_book = '' #Obligatorio o no guardar registro
@@ -164,48 +185,21 @@ for itera in range(1, 334):
             published_in_book = label.find_next_sibling('span').text.strip()
         except: 
             pass
-        data = {
-            'id_book': id_book,
-            'name_book': name_book,
-            'author_book': author_book,
-            # Curso
-            'publisher_book': publisher_book,
-            'datepublished_book': datepublished_book,
-            'language_book': language_book,
-            'number_of_pages_book': number_of_pages_book,
-            # Genero_Colección
-            'isbn_book': isbn_book,
-            'description_book': description_book,
-            'format_book': format_book,
-            'image_book': image_book,
-            'url_book': url_book,
-            'subcategoria_1_book': subcategoria_1_book,
-            'subcategoria_2_book': subcategoria_2_book,
-            'subcategoria_3_book': subcategoria_3_book,
-            'subcategoria_4_book': subcategoria_4_book,
-            'subcategoria_5_book': subcategoria_5_book,
-            'subcategoria_6_book': subcategoria_6_book,
-            'subcategoria_7_book': subcategoria_7_book,
-            'subcategoria_8_book': subcategoria_8_book,
-            'subcategoria_9_book': subcategoria_9_book,
-            'subcategoria_10_book': subcategoria_10_book,
-            'price_book': price_book,
-            'dimension_book': dimension_book,
-            'weight_book': weight_book,
-            'imprint_book': imprint_book,
-            'published_in_book': published_in_book,
-        }
-        # print(data)
 
+        if continue_next:
+            row = [id_book, name_book, author_book, ' ', publisher_book, datepublished_book, language_book, number_of_pages_book, 'Art & Photography', isbn_book, description_book, format_book, image_book, url_book, pagination_book, subcategoria_1_book, subcategoria_2_book, subcategoria_3_book, subcategoria_4_book, subcategoria_5_book, subcategoria_6_book, subcategoria_7_book, subcategoria_8_book, subcategoria_9_book, subcategoria_10_book, price_book, dimension_book, weight_book, imprint_book, published_in_book]
 
-        row = [id_book, name_book, author_book, ' ', publisher_book, datepublished_book, language_book, number_of_pages_book, 'Art & Photography', isbn_book, description_book, format_book, image_book, url_book, pagination_book, subcategoria_1_book, subcategoria_2_book, subcategoria_3_book, subcategoria_4_book, subcategoria_5_book, subcategoria_6_book, subcategoria_7_book, subcategoria_8_book, subcategoria_9_book, subcategoria_10_book, price_book, dimension_book, weight_book, imprint_book, published_in_book]
+            wb = load_workbook("scrapeo.xlsx")
+            # # Select First Worksheet
+            ws = wb.worksheets[0]
+            ws.append(row)
+            print()
 
-        wb = load_workbook("scrapeo.xlsx")
-        # # Select First Worksheet
-        ws = wb.worksheets[0]
-        ws.append(row)
-        print(id_book)
+            if name_book != '' and author_book != '' and publisher_book != '':
+                wb.save("scrapeo.xlsx")
 
-        if name_book != '' and author_book != '' and publisher_book != '':
-            wb.save("scrapeo.xlsx")
+        if title_book != '' and title_book==name_book:
+            continue_next = True
+
+        print(id_book, name_book)
     # input(">_ ")
