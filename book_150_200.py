@@ -17,7 +17,7 @@ max_row = ws.max_row
 if max_row > 1:
     print('Loading row {}'.format(max_row))
 
-    if ws.cell(row=max_row, column=1).value != 0:
+    if ws.cell(row=max_row, column=1).value != 0 and ws.cell(row=max_row, column=1).value != None:
         id_book = ws.cell(row=max_row, column=1).value
         title_book = ws.cell(row=max_row, column=2).value
         start_range = ws.cell(row=max_row, column=15).value
