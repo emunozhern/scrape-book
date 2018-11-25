@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 
 book_links = []
 id_book = 0
-for itera in range(1, 51):
+for itera in range(1, 334):
     url = 'https://www.bookdepository.com/category/2/Art-Photography/browse/viewmode/all?page={}'.format(itera)
     req = requests.get(url)
     soup = BeautifulSoup(req.text, "lxml")
