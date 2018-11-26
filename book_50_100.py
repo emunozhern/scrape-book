@@ -26,7 +26,7 @@ print('Finish loading: {} {} {}'.format(id_book, start_range, title_book))
 book_links = []
 #150 - 200
 for itera in range(start_range, 100):
-    url = 'https://www.bookdepository.com/category/2/Art-Photography/browse/viewmode/all?page={}'.format(itera)
+    url = 'https://www.bookdepository.com/category/3389/Audio-Books/browse/viewmode/all?page={}'.format(itera)
     req = requests.get(url)
     soup = BeautifulSoup(req.text, "lxml")
 
