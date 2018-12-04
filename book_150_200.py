@@ -3,6 +3,7 @@ import requests
 import re
 from openpyxl import load_workbook
 from bs4 import BeautifulSoup
+from url import URL
 # 2500/3:22pm
 #34Paginas son 1020 registros
 #4052
@@ -26,7 +27,7 @@ print('Finish loading: {} {} {}'.format(id_book, start_range, title_book))
 book_links = []
 #150 - 200
 for itera in range(start_range, 200):
-    url = 'https://www.bookdepository.com/category/3389/Audio-Books/browse/viewmode/all?page={}'.format(itera)
+    url = '{}?page={}'.format(URL, itera)
     req = requests.get(url)
     soup = BeautifulSoup(req.text, "lxml")
 
